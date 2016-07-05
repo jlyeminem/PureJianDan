@@ -23,6 +23,7 @@ import com.jly.purejiandan.ui.fragment.FreshListFragment;
 import com.jly.purejiandan.ui.fragment.MenuFragment;
 import com.jly.purejiandan.utils.NetUtil;
 import com.jly.purejiandan.utils.ShowToast;
+import com.jly.purejiandan.utils.StatusBarUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtils.compat(this,getResources().getColor(R.color.colorPrimaryDark));
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
@@ -115,7 +117,7 @@ public class MainActivity extends BaseActivity {
 
     protected void initView() {
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setBackgroundColor(Color.BLUE);
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -14,6 +14,9 @@ import android.widget.RelativeLayout;
 import com.jly.purejiandan.R;
 import com.jly.purejiandan.ui.activity.SetActivity;
 import com.jly.purejiandan.ui.adapter.MenuAdapter;
+import com.jly.purejiandan.utils.Constant;
+import com.jly.purejiandan.utils.PrefUtil;
+import com.jly.purejiandan.utils.ShowToast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,13 +53,14 @@ public class MenuFragment extends Fragment {
         mRlSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SetActivity.class));
-//                ((MainActivity)getActivity()).closeDrawers();
+                ShowToast.Short("功能还未实现");
+//                startActivity(new Intent(getActivity(), SetActivity.class));
             }
         });
-//        mRlNight.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        mRlNight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowToast.Short("功能还未实现");
 //                boolean isNight = PrefUtil.isNight();
 //                if (isNight) {
 //                    PrefUtil.setDay();
@@ -66,8 +70,8 @@ public class MenuFragment extends Fragment {
 //                    getActivity().setTheme(Constant.RESOURCES_NIGHTTHEME);
 //                }
 //                setDrawableCahe();
-//            }
-//        });
+            }
+        });
     }
 //    private void setDrawableCahe() {
 //        //设置false清除缓存
