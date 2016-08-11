@@ -7,6 +7,7 @@ import com.jly.purejiandan.db.DaoMaster;
 import com.jly.purejiandan.db.DaoSession;
 import com.jly.purejiandan.db.ReadFreshDao;
 import com.jly.purejiandan.utils.AppContextUtil;
+import com.squareup.leakcanary.LeakCanary;
 
 
 /**
@@ -22,6 +23,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         mApplicationContext = this;
         AppContextUtil.init(this);
     }

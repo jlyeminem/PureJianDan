@@ -8,19 +8,25 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.jly.purejiandan.bean.NetWorkEvent;
 import com.jly.purejiandan.R;
 import com.jly.purejiandan.base.BaseActivity;
+import com.jly.purejiandan.bean.NetWorkEvent;
 import com.jly.purejiandan.ui.fragment.FreshListFragment;
-import com.jly.purejiandan.ui.fragment.MenuFragment;
+import com.jly.purejiandan.ui.fragment.JokeFragment;
+import com.jly.purejiandan.ui.fragment.OXPictureFragment;
+import com.jly.purejiandan.ui.fragment.PictureFragment;
+import com.jly.purejiandan.ui.fragment.VideoFragment;
 import com.jly.purejiandan.utils.NetUtil;
 import com.jly.purejiandan.utils.ShowToast;
 import com.jly.purejiandan.utils.StatusBarUtils;
@@ -29,11 +35,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     @Bind(R.id.drawerLayout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.navigationView)
+    NavigationView mNavigationView;
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private BroadcastReceiver mNetStateReceiver;
@@ -42,7 +50,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.compat(this,getResources().getColor(R.color.colorPrimaryDark));
+        StatusBarUtils.compat(this, getResources().getColor(R.color.colorPrimaryDark));
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
@@ -54,20 +62,21 @@ public class MainActivity extends BaseActivity {
         mNetStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)){
-                    if(NetUtil.isNetworkConnected()){
+                if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+                    if (NetUtil.isNetworkConnected()) {
                         EventBus.getDefault().post(new NetWorkEvent(NetWorkEvent.AVAILABLE));
-                    }else{
+                    } else {
                         EventBus.getDefault().post(new NetWorkEvent(NetWorkEvent.UNAVAILABLE));
                     }
                 }
             }
         };
-        registerReceiver(mNetStateReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        registerReceiver(mNetStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
-    public void onEventMainThread(NetWorkEvent event){
-        if(NetWorkEvent.UNAVAILABLE==event.getType()){
-            MaterialDialog materialDialog =new MaterialDialog.Builder(this)
+
+    public void onEventMainThread(NetWorkEvent event) {
+        if (NetWorkEvent.UNAVAILABLE == event.getType()) {
+            MaterialDialog materialDialog = new MaterialDialog.Builder(this)
                     .title("未发现网络连接")
                     .content("去开启网络？")
                     .positiveText("是")
@@ -88,7 +97,7 @@ public class MainActivity extends BaseActivity {
                     })
                     .cancelable(false)
                     .build();
-            if(!materialDialog.isShowing()){
+            if (!materialDialog.isShowing()) {
                 materialDialog.show();
             }
         }
@@ -96,11 +105,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis() - exitTime > 1500)){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime > 1500)) {
                 ShowToast.Short("再按一次退出程序");
                 exitTime = System.currentTimeMillis();
-            }else{
+            } else {
                 finish();
             }
             return true;
@@ -123,7 +132,7 @@ public class MainActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,mToolbar , R.string.app_name, R.string.app_name) {
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 invalidateOptionsMenu();// creates call to onPrepareOptionsMenu()
@@ -136,11 +145,46 @@ public class MainActivity extends BaseActivity {
         };
         mActionBarDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        setFragment(R.id.menu_container,new MenuFragment());
-        setFragment(R.id.content_container,new FreshListFragment());
+//        setFragment(R.id.menu_container, new MenuFragment());
+        mNavigationView.setCheckedItem(R.id.nav_freshNews);
+        mNavigationView.setNavigationItemSelectedListener(this);
+//        mNavigationView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        setFragment(R.id.content_container, new FreshListFragment());
     }
 
-    public void closeDrawers(){
+    public void closeDrawers() {
         mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_freshNews:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setFragment(R.id.content_container,new FreshListFragment());
+                break;
+            case R.id.nav_boringPicture:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setFragment(R.id.content_container,new PictureFragment());
+                break;
+            case R.id.nav_sister:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setFragment(R.id.content_container,new OXPictureFragment());
+                break;
+            case R.id.nav_joke:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setFragment(R.id.content_container,new JokeFragment());
+                break;
+            case R.id.nav_movie:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setFragment(R.id.content_container,new VideoFragment());
+                break;
+            case R.id.nav_setting:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                ShowToast.Short("功能还未实现");
+                break;
+            default:break;
+        }
+        return true;
     }
 }

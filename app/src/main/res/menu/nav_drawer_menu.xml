@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_id">
+        <item
+            android:id="@+id/nav_freshNews"
+            android:title="新鲜事"
+            android:icon="@drawable/ic_explore_white_24dp"/>
+        <item
+            android:id="@+id/nav_boringPicture"
+            android:title="无聊图"
+            android:icon="@drawable/ic_mood_white_24dp"/>
+        <item
+            android:id="@+id/nav_sister"
+            android:title="妹子图"
+            android:icon="@drawable/ic_local_florist_white_24dp"/>
+        <item
+            android:id="@+id/nav_joke"
+            android:title="小段子"
+            android:icon="@drawable/ic_chat_white_24dp"/>
+
+        <item
+            android:id="@+id/nav_movie"
+            android:title="小电影"
+            android:icon="@drawable/ic_movie_white_24dp"/>
+
+    </group>
+
+    <item android:title="系统功能">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:title="设置"
+                android:icon="@drawable/ic_settings_white_24dp"/>
+        </menu>
+    </item>
+
+</menu>

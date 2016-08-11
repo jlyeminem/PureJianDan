@@ -39,4 +39,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'org.greenrobot:greendao:2.2.1'
     compile 'org.greenrobot:greendao-generator:2.2.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
