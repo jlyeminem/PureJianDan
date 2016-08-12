@@ -28,12 +28,14 @@ import com.jly.purejiandan.ui.fragment.OXPictureFragment;
 import com.jly.purejiandan.ui.fragment.PictureFragment;
 import com.jly.purejiandan.ui.fragment.VideoFragment;
 import com.jly.purejiandan.utils.NetUtil;
+import com.jly.purejiandan.utils.RxBus;
 import com.jly.purejiandan.utils.ShowToast;
 import com.jly.purejiandan.utils.StatusBarUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     @Bind(R.id.drawerLayout)
@@ -43,19 +45,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.navigationView)
     NavigationView mNavigationView;
 
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private BroadcastReceiver mNetStateReceiver;
     private long exitTime;
+    private Subscription rxSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtils.compat(this, getResources().getColor(R.color.colorPrimaryDark));
         setContentView(R.layout.activity_main);
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         initView();
         initData();
+        receiveEvent();
+    }
+
+    private void receiveEvent() {
+        rxSubscription = RxBus.getDefault().toObservable(NetWorkEvent.class)
+                .subscribe(new Action1<NetWorkEvent>() {
+                    @Override
+                    public void call(NetWorkEvent netWorkEvent) {
+                        onEvent(netWorkEvent);
+                    }
+                });
     }
 
     private void initData() {
@@ -64,9 +77,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
                     if (NetUtil.isNetworkConnected()) {
-                        EventBus.getDefault().post(new NetWorkEvent(NetWorkEvent.AVAILABLE));
+                        RxBus.getDefault().post(new NetWorkEvent(NetWorkEvent.AVAILABLE));
                     } else {
-                        EventBus.getDefault().post(new NetWorkEvent(NetWorkEvent.UNAVAILABLE));
+                        RxBus.getDefault().post(new NetWorkEvent(NetWorkEvent.UNAVAILABLE));
                     }
                 }
             }
@@ -74,7 +87,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         registerReceiver(mNetStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
-    public void onEventMainThread(NetWorkEvent event) {
+    public void onEvent(NetWorkEvent event) {
         if (NetWorkEvent.UNAVAILABLE == event.getType()) {
             MaterialDialog materialDialog = new MaterialDialog.Builder(this)
                     .title("未发现网络连接")
@@ -103,6 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -120,8 +134,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
         unregisterReceiver(mNetStateReceiver);
+        if(!rxSubscription.isUnsubscribed()) {
+            rxSubscription.unsubscribe();
+        }
     }
 
     protected void initView() {
@@ -132,7 +149,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
+        ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 invalidateOptionsMenu();// creates call to onPrepareOptionsMenu()
@@ -145,16 +162,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         };
         mActionBarDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-//        setFragment(R.id.menu_container, new MenuFragment());
         mNavigationView.setCheckedItem(R.id.nav_freshNews);
         mNavigationView.setNavigationItemSelectedListener(this);
-//        mNavigationView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         setFragment(R.id.content_container, new FreshListFragment());
     }
 
-    public void closeDrawers() {
-        mDrawerLayout.closeDrawers();
-    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
