@@ -31,18 +31,18 @@ public class FreshDetailActivity extends SwipeBackActivity {
         intent.putExtra(KEY_FRESH, news);
         context.startActivity(intent);
     }
-    
+
     protected void initView() {
         Intent intent = getIntent();
         FreshNews freshNews = intent.getParcelableExtra(KEY_FRESH);
-        FreshDetailFragment fragment =FreshDetailFragment.newInstance(freshNews);
+        FreshDetailFragment fragment = FreshDetailFragment.newInstance(freshNews);
         setFragment(R.id.fl_common_container, fragment);
     }
 
-    public  void setFragment(int id , Fragment fragment){
+    public void setFragment(int id, Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(id,fragment);
+        ft.replace(id, fragment);
         ft.commit();
     }
 

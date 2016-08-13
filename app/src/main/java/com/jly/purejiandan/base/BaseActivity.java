@@ -9,23 +9,23 @@ import android.support.v7.app.AppCompatActivity;
 import com.jly.purejiandan.utils.PrefUtil;
 
 /**
- *
  * Created by jly on 2016/4/6.
  */
-public class BaseActivity extends AppCompatActivity implements ConstString{
+public class BaseActivity extends AppCompatActivity implements ConstString {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(PrefUtil.getThemeRes());
     }
 
-    public  void setFragment(int id , Fragment fragment){
+    public void setFragment(int id, Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(id,fragment);
+        ft.replace(id, fragment);
         ft.commit();
     }
-    protected void initView(){
+
+    protected void initView() {
 
     }
 }

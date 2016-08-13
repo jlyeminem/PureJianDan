@@ -6,13 +6,15 @@ import android.support.v7.widget.RecyclerView;
 /**
  * Created by jly on 2016/6/6.
  */
-public abstract class LoadOnScollListener extends RecyclerView.OnScrollListener{
+public abstract class LoadOnScollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager mLinearLayoutManager;
     private int mCurPage;
-    public LoadOnScollListener(LinearLayoutManager linearLayoutManager, int curPage){
+
+    public LoadOnScollListener(LinearLayoutManager linearLayoutManager, int curPage) {
         mLinearLayoutManager = linearLayoutManager;
         mCurPage = curPage;
     }
+
     private boolean loading = false;
 
     public boolean isLoading() {

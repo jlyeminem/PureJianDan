@@ -50,7 +50,7 @@ public class FreshDetailFragment extends Fragment {
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.wv_news)
     WebView mWvNews;
-//    @Bind(R.id.nested_view)
+    //    @Bind(R.id.nested_view)
 //    NestedScrollView mNestedView;
     @Bind(R.id.tv_load_error)
     TextView mTvLoadError;
@@ -131,15 +131,15 @@ public class FreshDetailFragment extends Fragment {
         mToolbar.setTitle("新鲜事");
         //初始化已知UI
         if (mFreshNews != null) {
-            if(mFreshNews.getCustom_fields()!=null) {
+            if (mFreshNews.getCustom_fields() != null) {
                 List<String> images = mFreshNews.getCustom_fields().getThumb_c();
                 if (images != null && images.size() > 0) {
                     Glide.with(getActivity()).load(images.get(0)).placeholder(R.drawable.ic_loading_small).into(mIvHeader);
                 }
             }
             mTvTitle.setText(mFreshNews.getTitle());
-            String strSource =mFreshNews.getAuthor().getName();
-                    //+"@"+mFreshNews.getTags().get(0).getTitle();
+            String strSource = mFreshNews.getAuthor().getName();
+            //+"@"+mFreshNews.getTags().get(0).getTitle();
             mTvSource.setText(strSource);
             mId = mFreshNews.getId();
         }
@@ -156,18 +156,18 @@ public class FreshDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_fresh_news_detail,menu);
+        inflater.inflate(R.menu.menu_fresh_news_detail, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
             case R.id.action_comment:
                 Intent i = new Intent(getActivity(), CommentsActivity.class);
-                i.putExtra(CommentsActivity.ID_FRESH,mFreshNews.getId());
+                i.putExtra(CommentsActivity.ID_FRESH, mFreshNews.getId());
                 getActivity().startActivity(i);
                 return true;
             case R.id.action_share:
@@ -190,6 +190,7 @@ public class FreshDetailFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
     private static String getHtml(FreshNews freshNews, String content) {
         final StringBuilder sb = new StringBuilder();
         sb.append("<!DOCTYPE html>");

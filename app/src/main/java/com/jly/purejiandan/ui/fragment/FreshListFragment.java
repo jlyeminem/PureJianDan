@@ -30,7 +30,6 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- *
  * Created by jly on 2016/6/2.
  */
 public class FreshListFragment extends Fragment {
@@ -38,7 +37,6 @@ public class FreshListFragment extends Fragment {
     RecyclerView mRcView;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-
 
 
     private Snackbar mLoadLatestSnackbar;
@@ -77,13 +75,13 @@ public class FreshListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRcView.setLayoutManager(layoutManager);
         /**
-          * 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-          * 用来使RecyclerView保持固定大小，该信息被用于自身的优化
+         * 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+         * 用来使RecyclerView保持固定大小，该信息被用于自身的优化
          **/
         mRcView.setHasFixedSize(true);
-        mFreshListAdapter = new FreshListAdapter(getActivity(),new ArrayList<FreshNews>());
+        mFreshListAdapter = new FreshListAdapter(getActivity(), new ArrayList<FreshNews>());
         mRcView.setAdapter(mFreshListAdapter);
-        mLoadOnScollListener = new LoadOnScollListener(layoutManager,mCurPage) {
+        mLoadOnScollListener = new LoadOnScollListener(layoutManager, mCurPage) {
             @Override
             public void loadMore(int curPage) {
                 loadBeforeFreshNews(++mCurPage);
@@ -91,7 +89,7 @@ public class FreshListFragment extends Fragment {
         };
         mRcView.addOnScrollListener(mLoadOnScollListener);
 
-        if(mFreshListAdapter.getFreshNewses().size() == 0){
+        if (mFreshListAdapter.getFreshNewses().size() == 0) {
 //            mSwipeRefreshLayout.setProgressViewOffset(false, 0,
 //                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 //            mSwipeRefreshLayout.setRefreshing(true);
@@ -108,21 +106,21 @@ public class FreshListFragment extends Fragment {
         }
 
         mLoadLatestSnackbar = Snackbar.make(mRcView, "加载失败，请重试", Snackbar.LENGTH_INDEFINITE)
-            .setAction("刷新", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadLastFreshNews();
-                    //刷新最新新鲜事时，页数归一
-                    mCurPage = 1;
-                }
-            });
+                .setAction("刷新", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadLastFreshNews();
+                        //刷新最新新鲜事时，页数归一
+                        mCurPage = 1;
+                    }
+                });
         mLoadBeforeSnackbar = Snackbar.make(mRcView, "加载更多失败，请重试", Snackbar.LENGTH_INDEFINITE)
-            .setAction("刷新", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadBeforeFreshNews(++mCurPage);
-                }
-            });
+                .setAction("刷新", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadBeforeFreshNews(++mCurPage);
+                    }
+                });
     }
 
     private void loadLastFreshNews() {
@@ -155,7 +153,7 @@ public class FreshListFragment extends Fragment {
                 });
     }
 
-    public void loadBeforeFreshNews(int page){
+    public void loadBeforeFreshNews(int page) {
         RetrofitManager.builder().getBeforeNews(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -186,10 +184,10 @@ public class FreshListFragment extends Fragment {
 
     private void setReadState(List<FreshNews> posts) {
         List<Integer> list = ReadFreshNews.getInstance(getActivity()).getAllReadId();
-        for(FreshNews freshNews:posts){
-            if(list.contains(freshNews.getId())){
+        for (FreshNews freshNews : posts) {
+            if (list.contains(freshNews.getId())) {
                 freshNews.setRead(true);
-            }else{
+            } else {
                 freshNews.setRead(false);
             }
         }

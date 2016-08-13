@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.drawerLayout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.toolbar)
@@ -52,9 +53,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.compat(this, getResources().getColor(R.color.colorPrimaryDark));
+        StatusBarUtils.compat(this, ContextCompat.getColor(this,R.color.colorPrimary));
         setContentView(R.layout.activity_main);
-        //EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         initView();
         initData();
@@ -136,14 +136,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onDestroy();
         //EventBus.getDefault().unregister(this);
         unregisterReceiver(mNetStateReceiver);
-        if(!rxSubscription.isUnsubscribed()) {
+        if (!rxSubscription.isUnsubscribed()) {
             rxSubscription.unsubscribe();
         }
     }
 
     protected void initView() {
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -173,29 +173,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (item.getItemId()) {
             case R.id.nav_freshNews:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setFragment(R.id.content_container,new FreshListFragment());
+                setFragment(R.id.content_container, new FreshListFragment());
                 break;
             case R.id.nav_boringPicture:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setFragment(R.id.content_container,new PictureFragment());
+                setFragment(R.id.content_container, new PictureFragment());
                 break;
             case R.id.nav_sister:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setFragment(R.id.content_container,new OXPictureFragment());
+                setFragment(R.id.content_container, new OXPictureFragment());
                 break;
             case R.id.nav_joke:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setFragment(R.id.content_container,new JokeFragment());
+                setFragment(R.id.content_container, new JokeFragment());
                 break;
             case R.id.nav_movie:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                setFragment(R.id.content_container,new VideoFragment());
+                setFragment(R.id.content_container, new VideoFragment());
                 break;
             case R.id.nav_setting:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 ShowToast.Short("功能还未实现");
                 break;
-            default:break;
+            default:
+                break;
         }
         return true;
     }

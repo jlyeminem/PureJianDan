@@ -34,7 +34,6 @@ public class OXPictureFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
     private Snackbar mLoadLatestSnackbar;
     private Snackbar mLoadBeforeSnackbar;
     private PictureAdapter mPictureAdapter;
@@ -75,9 +74,9 @@ public class OXPictureFragment extends Fragment {
          * 用来使RecyclerView保持固定大小，该信息被用于自身的优化
          **/
         mRcView.setHasFixedSize(true);
-        mPictureAdapter = new PictureAdapter(getActivity(),new ArrayList<Picture>());
+        mPictureAdapter = new PictureAdapter(getActivity(), new ArrayList<Picture>());
         mRcView.setAdapter(mPictureAdapter);
-        mLoadOnScollListener = new LoadOnScollListener(layoutManager,mCurPage) {
+        mLoadOnScollListener = new LoadOnScollListener(layoutManager, mCurPage) {
             @Override
             public void loadMore(int curPage) {
                 loadBeforeJokes(++mCurPage);
@@ -86,7 +85,7 @@ public class OXPictureFragment extends Fragment {
         };
         mRcView.addOnScrollListener(mLoadOnScollListener);
 
-        if(mPictureAdapter.getPictureList().size() == 0){
+        if (mPictureAdapter.getPictureList().size() == 0) {
 //            mSwipeRefreshLayout.setProgressViewOffset(false, 0,
 //                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 //            mSwipeRefreshLayout.setRefreshing(true);

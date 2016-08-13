@@ -81,11 +81,11 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
                                     switch (which) {
                                         //分享
                                         case 0:
-                                            FileUtil.sharePicture((Activity) mContext,picture.getPics().get(0));
+                                            FileUtil.sharePicture((Activity) mContext, picture.getPics().get(0));
                                             break;
                                         //保存
                                         case 1:
-                                            FileUtil.savePicture((Activity) mContext,picture.getPics().get(0));
+                                            FileUtil.savePicture((Activity) mContext, picture.getPics().get(0));
                                             break;
                                     }
                                 }

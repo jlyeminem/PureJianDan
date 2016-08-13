@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by jly on 2016/6/11.
  */
-public class VideoDetailActivity extends BaseActivity implements View.OnClickListener{
+public class VideoDetailActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.progress)
@@ -36,6 +36,7 @@ public class VideoDetailActivity extends BaseActivity implements View.OnClickLis
     private String url;
 
     private boolean isLoadFinish = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,11 +117,13 @@ public class VideoDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();

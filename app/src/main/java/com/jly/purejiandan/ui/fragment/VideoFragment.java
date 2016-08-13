@@ -34,7 +34,6 @@ public class VideoFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
     private Snackbar mLoadLatestSnackbar;
     private Snackbar mLoadBeforeSnackbar;
     private VideoAdapter mVideoAdapter;
@@ -68,7 +67,7 @@ public class VideoFragment extends Fragment {
         });
 
         //初始化RecyclerView
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRcView.setLayoutManager(layoutManager);
         /**
          * 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
@@ -77,7 +76,7 @@ public class VideoFragment extends Fragment {
         mRcView.setHasFixedSize(true);
         mVideoAdapter = new VideoAdapter(getActivity(), new ArrayList<VideoC>());
         mRcView.setAdapter(mVideoAdapter);
-        mLoadOnScollListener = new LoadOnScollListener(layoutManager,mCurPage) {
+        mLoadOnScollListener = new LoadOnScollListener(layoutManager, mCurPage) {
             @Override
             public void loadMore(int curPage) {
                 loadBeforeVideos(++mCurPage);
@@ -86,7 +85,7 @@ public class VideoFragment extends Fragment {
         };
         mRcView.addOnScrollListener(mLoadOnScollListener);
 
-        if(mVideoAdapter.getVideoCList().size() == 0){
+        if (mVideoAdapter.getVideoCList().size() == 0) {
 //            mSwipeRefreshLayout.setProgressViewOffset(false, 0,
 //                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 //            mSwipeRefreshLayout.setRefreshing(true);

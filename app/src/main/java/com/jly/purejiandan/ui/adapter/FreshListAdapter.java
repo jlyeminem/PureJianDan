@@ -22,7 +22,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- *
  * Created by jly on 2016/6/5.
  */
 public class FreshListAdapter extends RecyclerView.Adapter<FreshListAdapter.ViewHolder> {
@@ -30,43 +29,43 @@ public class FreshListAdapter extends RecyclerView.Adapter<FreshListAdapter.View
     private List<FreshNews> mFreshNewses;
     private Context mContext;
 
-    public FreshListAdapter(Context context,List<FreshNews> freshNewses) {
+    public FreshListAdapter(Context context, List<FreshNews> freshNewses) {
         mFreshNewses = freshNewses;
-        mContext =context;
+        mContext = context;
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.fresh_list_item, parent,false);
+        View view = mInflater.inflate(R.layout.fresh_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final FreshNews freshNews = mFreshNewses.get(position);
-        if (freshNews != null){
+        if (freshNews != null) {
             List<String> images = freshNews.getCustom_fields().getThumb_c();
-            if(images != null && images.size()>0) {
+            if (images != null && images.size() > 0) {
                 Glide.with(mContext).load(images.get(0)).placeholder(R.drawable.ic_loading_small).centerCrop().into(holder.mImg);
             }
             holder.mTvTitle.setText(freshNews.getTitle());
-            String strSource =freshNews.getAuthor().getName()+"@"+freshNews.getTags().get(0).getTitle();
+            String strSource = freshNews.getAuthor().getName() + "@" + freshNews.getTags().get(0).getTitle();
             holder.mTvInfo.setText(strSource);
-            if(freshNews.isRead()){
-                holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext,R.color.textColorSecond_Day));
-                holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext,R.color.textColorSecond_Day));
-            }else{
-                holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext,R.color.textColorFirst_Day));
-                holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext,R.color.textColorFirst_Day));
+            if (freshNews.isRead()) {
+                holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.textColorSecond_Day));
+                holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext, R.color.textColorSecond_Day));
+            } else {
+                holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.textColorFirst_Day));
+                holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext, R.color.textColorFirst_Day));
             }
             holder.mCvItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!freshNews.isRead()) {
+                    if (!freshNews.isRead()) {
                         freshNews.setRead(true);
-                        holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext,R.color.textColorSecond_Day));
-                        holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext,R.color.textColorSecond_Day));
+                        holder.mTvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.textColorSecond_Day));
+                        holder.mTvInfo.setTextColor(ContextCompat.getColor(mContext, R.color.textColorSecond_Day));
                         //操作数据库是耗时操作，需要开启线程操作
                         new Thread(new Runnable() {
                             @Override
@@ -83,25 +82,27 @@ public class FreshListAdapter extends RecyclerView.Adapter<FreshListAdapter.View
 
     @Override
     public int getItemCount() {
-        return mFreshNewses==null?0:mFreshNewses.size();
+        return mFreshNewses == null ? 0 : mFreshNewses.size();
     }
 
     public List<FreshNews> getFreshNewses() {
         return mFreshNewses;
     }
 
-    public void changeData(List<FreshNews> freshNewses){
+    public void changeData(List<FreshNews> freshNewses) {
         mFreshNewses = freshNewses;
         notifyDataSetChanged();
     }
-    public void addData(List<FreshNews> freshNewses){
-        if(mFreshNewses!=null){
+
+    public void addData(List<FreshNews> freshNewses) {
+        if (mFreshNewses != null) {
             mFreshNewses.addAll(freshNewses);
             notifyDataSetChanged();
-        }else{
+        } else {
             changeData(freshNewses);
         }
     }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_img)
         ImageView mImg;
@@ -111,9 +112,10 @@ public class FreshListAdapter extends RecyclerView.Adapter<FreshListAdapter.View
         TextView mTvInfo;
         @Bind(R.id.cv_item)
         CardView mCvItem;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

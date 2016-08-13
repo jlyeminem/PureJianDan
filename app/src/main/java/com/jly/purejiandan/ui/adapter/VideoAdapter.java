@@ -58,7 +58,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, VideoDetailActivity.class);
-                    intent.putExtra("url",videoC.getComment_content());
+                    intent.putExtra("url", videoC.getComment_content());
                     mContext.startActivity(intent);
                 }
             });

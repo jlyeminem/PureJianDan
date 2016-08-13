@@ -1,6 +1,5 @@
 package com.jly.purejiandan.network;
 
-import com.jly.purejiandan.bean.CommentListForFresh;
 import com.jly.purejiandan.bean.FreshNewsDetail;
 import com.jly.purejiandan.bean.FreshNewsList;
 import com.jly.purejiandan.bean.JokeList;
@@ -13,10 +12,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 import rx.Observable;
 
-/**
- *
- * Created by jly on 2016/6/5.
- */
+
 public interface JianDanService {
 
     @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_SHORT)
@@ -63,8 +59,8 @@ public interface JianDanService {
     @GET("?oxwlxojflwblxbsapi=jandan.get_video_comments&page=")
     Observable<VideoList> getBeforeVideos(@Query("page") int page);
 
-    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_LONG)
-    @GET("?oxwlxojflwblxbsapi=get_post&include=comments&id=")
-    Observable<CommentListForFresh> getCommentListForFresh(@Query("id") int id);
+//    @Headers(RetrofitManager.CACHE_CONTROL_AGE + RetrofitManager.CACHE_STALE_LONG)
+//    @GET("?oxwlxojflwblxbsapi=get_post&include=comments&id=")
+//    Observable<CommentListForFresh> getCommentListForFresh(@Query("id") int id);
 
 }

@@ -99,11 +99,11 @@ public class PictureDetailActivity extends SwipeBackActivity {
                 finish();
             }
         });
-        mFabSave.setOnClickListener(new View.OnClickListener(){
+        mFabSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                FileUtil.savePicture((Activity) mContext,mUrl);
+                FileUtil.savePicture((Activity) mContext, mUrl);
             }
         });
         mImgBack.setOnClickListener(new View.OnClickListener() {

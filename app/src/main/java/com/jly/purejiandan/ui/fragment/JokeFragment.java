@@ -35,7 +35,6 @@ public class JokeFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
     private Snackbar mLoadLatestSnackbar;
     private Snackbar mLoadBeforeSnackbar;
     private JokeAdapter mJokeAdapter;
@@ -76,9 +75,9 @@ public class JokeFragment extends Fragment {
          * 用来使RecyclerView保持固定大小，该信息被用于自身的优化
          **/
         mRcView.setHasFixedSize(true);
-        mJokeAdapter = new JokeAdapter(getActivity(),new ArrayList<Joke>());
+        mJokeAdapter = new JokeAdapter(getActivity(), new ArrayList<Joke>());
         mRcView.setAdapter(mJokeAdapter);
-        mLoadOnScollListener = new LoadOnScollListener(layoutManager,mCurPage) {
+        mLoadOnScollListener = new LoadOnScollListener(layoutManager, mCurPage) {
             @Override
             public void loadMore(int curPage) {
                 loadBeforeJokes(++mCurPage);
@@ -87,7 +86,7 @@ public class JokeFragment extends Fragment {
         };
         mRcView.addOnScrollListener(mLoadOnScollListener);
 
-        if(mJokeAdapter.getJokeList().size() == 0){
+        if (mJokeAdapter.getJokeList().size() == 0) {
 //            mSwipeRefreshLayout.setProgressViewOffset(false, 0,
 //                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 //            mSwipeRefreshLayout.setRefreshing(true);
@@ -160,7 +159,7 @@ public class JokeFragment extends Fragment {
                     @Override
                     public void call(JokeList jokeList) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        if(jokeList!=null){
+                        if (jokeList != null) {
                             mJokeAdapter.changeData(jokeList.getComments());
                         }
                     }

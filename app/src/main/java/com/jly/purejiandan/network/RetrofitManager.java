@@ -1,7 +1,6 @@
 package com.jly.purejiandan.network;
 
 import com.jly.purejiandan.App;
-import com.jly.purejiandan.bean.CommentListForFresh;
 import com.jly.purejiandan.bean.FreshNewsDetail;
 import com.jly.purejiandan.bean.FreshNewsList;
 import com.jly.purejiandan.bean.JokeList;
@@ -26,29 +25,25 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
-/**
- *
- * Created by jly on 2016/6/5.
- */
 public class RetrofitManager {
-    public static String BASE_JIANDAN_URL="http://jandan.net/";
+    public static String BASE_JIANDAN_URL = "http://jandan.net/";
     //短缓存有效期为1分钟
     public static final int CACHE_STALE_SHORT = 60;
     //长缓存有效期为7天
     public static final int CACHE_STALE_LONG = 60 * 60 * 24 * 7;
 
     public static final String CACHE_CONTROL_AGE = "Cache-Control: public, max-age=";
-    
-    private Retrofit mRetrofit;
+
     private OkHttpClient mOkHttpClient;
     private JianDanService mJianDanService;
 
-    public static RetrofitManager builder(){
+    public static RetrofitManager builder() {
         return new RetrofitManager();
     }
-    private RetrofitManager(){
+
+    private RetrofitManager() {
         initOkHttpClient();
-        mRetrofit =new Retrofit.Builder()
+        Retrofit mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_JIANDAN_URL)
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -80,6 +75,7 @@ public class RetrofitManager {
             }
         }
     }
+
     // 云端响应头拦截器，用来配置缓存策略
     private Interceptor mRewriteCacheControlInterceptor = new Interceptor() {
         @Override
@@ -101,40 +97,50 @@ public class RetrofitManager {
             }
         }
     };
-    public Observable<FreshNewsList> getLatestNews(){
+
+    public Observable<FreshNewsList> getLatestNews() {
         return mJianDanService.getLatestNews();
     }
-    public Observable<FreshNewsList> getBeforeNews(int page){
+
+    public Observable<FreshNewsList> getBeforeNews(int page) {
         return mJianDanService.getBeforeNews(page);
     }
-    public Observable<FreshNewsDetail> getFreshNewsDetail(int id){
+
+    public Observable<FreshNewsDetail> getFreshNewsDetail(int id) {
         return mJianDanService.getFreshNewsDetail(id);
     }
-    public Observable<JokeList> getLastestJokes(){
+
+    public Observable<JokeList> getLastestJokes() {
         return mJianDanService.getLatestJokes();
     }
-    public Observable<JokeList> getBeforeJokes(int page){
+
+    public Observable<JokeList> getBeforeJokes(int page) {
         return mJianDanService.getBeforeJokes(page);
     }
-    public Observable<OXPictureList> getLatestOXPictures(){
+
+    public Observable<OXPictureList> getLatestOXPictures() {
         return mJianDanService.getLatestOXPictures();
     }
-    public Observable<OXPictureList> getBeforeOXPictures(int page){
+
+    public Observable<OXPictureList> getBeforeOXPictures(int page) {
         return mJianDanService.getBeforeOXPictures(page);
     }
-    public Observable<PictureList> getLatestPictures(){
+
+    public Observable<PictureList> getLatestPictures() {
         return mJianDanService.getLatestPictures();
     }
-    public Observable<PictureList> getBeforePictures(int page){
+
+    public Observable<PictureList> getBeforePictures(int page) {
         return mJianDanService.getBeforePictures(page);
     }
-    public Observable<VideoList> getLatestVideos(){
+
+    public Observable<VideoList> getLatestVideos() {
         return mJianDanService.getLatestVideos();
     }
-    public Observable<VideoList> getBeforeVideos(int page){
+
+    public Observable<VideoList> getBeforeVideos(int page) {
         return mJianDanService.getBeforeVideos(page);
     }
-    public Observable<CommentListForFresh> getCommentListForFresh(int id){
-        return mJianDanService.getCommentListForFresh(id);
-    }
+
+
 }

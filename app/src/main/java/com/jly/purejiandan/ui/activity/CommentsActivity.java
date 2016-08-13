@@ -9,6 +9,7 @@ import com.jly.purejiandan.base.BaseActivity;
  */
 public class CommentsActivity extends BaseActivity {
     public static String ID_FRESH = "id_fresh";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,7 +18,7 @@ public class CommentsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        int id = getIntent().getIntExtra(ID_FRESH,0);
+        int id = getIntent().getIntExtra(ID_FRESH, 0);
         getComments(id);
     }
 
