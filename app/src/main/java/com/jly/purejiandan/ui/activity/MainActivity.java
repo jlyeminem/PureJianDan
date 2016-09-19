@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private BroadcastReceiver mNetStateReceiver;
     private long exitTime;
-    private Subscription rxSubscription;
+    private Subscription rxSubscription;//将传入的 Subscriber 作为 Subscription 返回。这是为了方便 unsubscribe().
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

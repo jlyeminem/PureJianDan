@@ -29,9 +29,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by jly on 2016/6/2.
- */
 public class FreshListFragment extends Fragment {
     @Bind(R.id.rc_view)
     RecyclerView mRcView;

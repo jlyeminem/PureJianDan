@@ -3,9 +3,7 @@ package com.jly.purejiandan.ui;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-/**
- * Created by jly on 2016/6/6.
- */
+
 public abstract class LoadOnScollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager mLinearLayoutManager;
     private int mCurPage;
@@ -16,10 +14,6 @@ public abstract class LoadOnScollListener extends RecyclerView.OnScrollListener 
     }
 
     private boolean loading = false;
-
-    public boolean isLoading() {
-        return loading;
-    }
 
     public void setLoading(boolean loading) {
         this.loading = loading;
@@ -34,14 +28,6 @@ public abstract class LoadOnScollListener extends RecyclerView.OnScrollListener 
             loadMore(mCurPage);
             loading = true;
         }
-    }
-
-    public int getCurPage() {
-        return mCurPage;
-    }
-
-    public void setCurPage(int curPage) {
-        mCurPage = curPage;
     }
 
     public abstract void loadMore(int curPage);
